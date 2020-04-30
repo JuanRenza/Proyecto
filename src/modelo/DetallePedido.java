@@ -10,5 +10,12 @@ package modelo;
  * @author joseb
  */
 public class DetallePedido {
-    
+    				
+            
+    private int idDetalle; 					
+    private String cantidadProducto;
+    private String subTotal;
+    private int idProductoDF;
+    private int idPedidoDF;
+   
 }
