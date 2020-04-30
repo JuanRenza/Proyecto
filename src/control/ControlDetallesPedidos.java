@@ -13,13 +13,13 @@ import modelo.DetallePedido;
  * @author joseb
  */
 public class ControlDetallesPedidos {
-       public LinkedList<DetallePedido> consultarPaises() {
-        LinkedList<DetallePedido> listapo = new LinkedList<>();
-        DetallePedido objclasi = new DetallePedido();
-        String sql = "select * from paises_origen;";
-        listapo = objclasi.consultarDetallePedidosql);
-        return listapo;
-        
-        
-    }
+//       public LinkedList<DetallePedido> consultarPaises() {
+//        LinkedList<DetallePedido> listapo = new LinkedList<>();
+//        DetallePedido objclasi = new DetallePedido();
+//        String sql = "select * from paises_origen;";
+//        listapo = objclasi.consultarDetallePedidosql);
+//        return listapo;
+//        
+//        
+//    }
 }
