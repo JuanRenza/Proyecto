@@ -5,6 +5,10 @@
  */
 package modelo;
 
+import control.BaseDatos;
+import java.sql.SQLException;
+import java.sql.Statement;
+
 /**
  *
  * @author Nicolas Alexander
@@ -56,6 +60,26 @@ public class TelefonosAdmin {
     @Override
     public String toString() {
         return "TelefonosAdmin{" + "idTelefonosA=" + idTelefonosA + ", numTelefono=" + numTelefono + ", idAdminTF=" + idAdminTF + '}';
+    }
+    
+     public boolean insertarTelefonosAdmin(String sql) {
+
+        boolean t = false;
+        BaseDatos objCon = new BaseDatos();
+
+        if (objCon.crearConexion()) {
+            try {
+                Statement sentencia = objCon.getConexion().createStatement();
+                sentencia.executeUpdate(sql);
+                t = true;
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+                t = false;
+            }
+        }
+
+        return t;
+
     }
      
      

@@ -50,9 +50,9 @@ public class Administrador {
         this.direccionAdmin = direccionAdmin;
         this.fotoAdmin = fotoAdmin;
     }
-    
-    
 
+    
+    
     public int getIdAdmin() {
         return idAdmin;
     }

@@ -5,6 +5,10 @@
  */
 package modelo;
 
+import control.BaseDatos;
+import java.sql.SQLException;
+import java.sql.Statement;
+
 /**
  *
  * @author Nicolas Alexander
@@ -56,7 +60,25 @@ public class TelefonosVendedor {
     public String toString() {
         return "TelefonosVendedor{" + "idTelefonosV=" + idTelefonosV + ", numTelefono=" + numTelefono + ", identificacionCVF=" + identificacionCVF + '}';
     }
-    
+    public boolean insertarTelefonosVendedor(String sql) {
+
+        boolean t = false;
+        BaseDatos objCon = new BaseDatos();
+
+        if (objCon.crearConexion()) {
+            try {
+                Statement sentencia = objCon.getConexion().createStatement();
+                sentencia.executeUpdate(sql);
+                t = true;
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+                t = false;
+            }
+        }
+
+        return t;
+
+    }
     
     
 }
