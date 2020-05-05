@@ -5,6 +5,12 @@
  */
 package modelo;
 
+import control.BaseDatos;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.LinkedList;
+
 /**
  *
  * @author Windows 10
@@ -45,6 +51,53 @@ public class TipoProducto {
     @Override
     public String toString() {
         return "TipoProductos{" + "idTipo=" + idTipo + ", tipoProducto=" + tipoProducto + '}';
+    }
+    
+    public LinkedList<TipoProducto> buscarTipoProducto(String sql) {
+        
+        ResultSet rs = null;
+        LinkedList<TipoProducto> ltp = new LinkedList<>();
+        BaseDatos objcone = new BaseDatos();
+        int idTipo = 0;
+        String tipoProducto="";
+        
+        if (objcone.crearConexion()) {
+            try {
+                Statement sentencia = objcone.getConexion().createStatement();
+                rs = sentencia.executeQuery(sql);
+                while (rs.next()) {
+                    try {
+                        idTipo = rs.getInt("idTipo");
+                    } catch (NullPointerException n) { }
+                    try {
+                        tipoProducto = rs.getString("tipoProducto");
+                    } catch (NullPointerException n) { }
+                 
+                    ltp.add(new TipoProducto(idTipo, tipoProducto));
+                }
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+        }
+        return ltp;
+    }
+    
+    public boolean insertTipoProducto(String sql) {
+        boolean t=false;
+        BaseDatos objCon = new BaseDatos();
+
+        if (objCon.crearConexion()) {
+            try {
+                Statement sentencia = objCon.getConexion().createStatement();
+                sentencia.executeUpdate(sql);
+                t=true;
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+                t= false;
+            }
+        }
+        
+        return t;
     }
     
 }
