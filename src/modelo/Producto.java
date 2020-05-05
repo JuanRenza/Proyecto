@@ -5,6 +5,17 @@
  */
 package modelo;
 
+import control.BaseDatos;
+import java.io.File;
+import java.io.FileInputStream;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.LinkedList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  *
  * @author Windows 10
@@ -13,7 +24,7 @@ public class Producto {
     
     private int idProducto;
     private String nombreProducto;
-    private String fotoProducto;
+    private byte[] fotoProducto;
     private String referenciaProducto;
     private double valorProducto;
     private String descripcionProducto;
@@ -23,7 +34,7 @@ public class Producto {
     public Producto() {
     }
 
-    public Producto(int idProducto, String nombreProducto, String fotoProducto, String referenciaProducto, double valorProducto, String descripcionProducto, int idTiendaPF, int idTipoPF) {
+    public Producto(int idProducto, String nombreProducto, byte[] fotoProducto, String referenciaProducto, double valorProducto, String descripcionProducto, int idTiendaPF, int idTipoPF) {
         this.idProducto = idProducto;
         this.nombreProducto = nombreProducto;
         this.fotoProducto = fotoProducto;
@@ -34,7 +45,7 @@ public class Producto {
         this.idTipoPF = idTipoPF;
     }
 
-    public Producto(String nombreProducto, String fotoProducto, String referenciaProducto, double valorProducto, String descripcionProducto, int idTiendaPF, int idTipoPF) {
+    public Producto(String nombreProducto, byte[] fotoProducto, String referenciaProducto, double valorProducto, String descripcionProducto, int idTiendaPF, int idTipoPF) {
         this.nombreProducto = nombreProducto;
         this.fotoProducto = fotoProducto;
         this.referenciaProducto = referenciaProducto;
@@ -60,11 +71,11 @@ public class Producto {
         this.nombreProducto = nombreProducto;
     }
 
-    public String getFotoProducto() {
+    public byte[] getFotoProducto() {
         return fotoProducto;
     }
 
-    public void setFotoProducto(String fotoProducto) {
+    public void setFotoProducto(byte[] fotoProducto) {
         this.fotoProducto = fotoProducto;
     }
 
@@ -113,4 +124,64 @@ public class Producto {
         return "Producto{" + "idProducto=" + idProducto + ", nombreProducto=" + nombreProducto + ", fotoProducto=" + fotoProducto + ", referenciaProducto=" + referenciaProducto + ", valorProducto=" + valorProducto + ", descripcionProducto=" + descripcionProducto + ", idTiendaPF=" + idTiendaPF + ", idTipoPF=" + idTipoPF + '}';
     }
     
+    public LinkedList<Producto> buscarProducto(String sql){
+        ResultSet rs = null;
+        LinkedList<Producto> lp = new LinkedList<Producto>();
+        BaseDatos objcone = new BaseDatos();     
+        
+        if (objcone.crearConexion()) {
+            try{
+                Statement sentencia = objcone.getConexion().createStatement();
+                rs = sentencia.executeQuery(sql);
+                while(rs.next()){
+                    
+                    Producto p = new Producto();
+                    
+                    try {
+                        p.setIdProducto(rs.getInt("idProducto"));
+                        p.setNombreProducto(rs.getString("nombreProducto"));
+                        p.setFotoProducto(rs.getBytes("idTipo"));
+                        p.setReferenciaProducto(rs.getString("referenciaProducto"));
+                        p.setDescripcionProducto(rs.getString("descripcionProducto"));
+                        p.setValorProducto(rs.getDouble("valorProducto"));
+                        p.setIdTiendaPF(rs.getInt("idTiendaPF"));
+                        p.setIdTipoPF(rs.getInt("idTipoPF"));
+                    } catch (NullPointerException n) { }
+                    
+                    lp.add(p);
+                    
+                }
+            }catch(SQLException ex){
+                System.out.println(ex.getMessage());
+            }
+        }
+        return lp;
+    }
+    
+    public boolean insertProducto(Producto p, String sql){
+        boolean t = false;
+            BaseDatos objb = new BaseDatos();
+            PreparedStatement ps = null;
+            try {
+                if (objb.crearConexion()) {
+                    objb.getConexion().setAutoCommit(false);
+                    ps = objb.getConexion().prepareStatement(sql);
+                    
+                    ps.setString(1, p.getNombreProducto());
+                    ps.setBytes(2, p.getFotoProducto());
+                    ps.setString(3, p.getReferenciaProducto());
+                    ps.setDouble(4, p.getValorProducto());
+                    ps.setString(5, p.getDescripcionProducto());
+                    ps.setInt(6,p.getIdTiendaPF());
+                    ps.setInt(7,p.getIdTipoPF());
+                    ps.executeUpdate();
+                    objb.getConexion().commit();
+                    t = true;
+                }
+            } catch (Exception ex) {
+                Logger.getLogger(BaseDatos.class.getName()).log(Level.SEVERE, null, ex);
+                t = false;
+            }
+            return t;
+    }
 }
