@@ -3,8 +3,9 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/D:/camilo/Downloads/Proyecto/src/control/ControlTienda.java</file>
-            <file>file:/D:/camilo/Downloads/Proyecto/src/modelo/Tienda.java</file>
+            <file>file:/D:/camilo/Downloads/Proyecto/src/vista/Consultar/ConsultarClienteVendedor.java</file>
+            <file>file:/D:/camilo/Downloads/Proyecto/src/modelo/ClienteVendedor.java</file>
+            <file>file:/D:/camilo/Downloads/Proyecto/src/control/ControlClienteVendedor.java</file>
         </group>
     </open-files>
 </project-private>
