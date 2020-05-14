@@ -5,6 +5,16 @@
  */
 package modelo;
 
+import control.BaseDatos;
+import java.io.FileInputStream;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.LinkedList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  *
  * @author Nicolas Alexander
@@ -21,7 +31,7 @@ public class Administrador {
     private String direccionAdmin;
     private String fotoAdmin;
     
-    public Administrador() {
+    public Administrador(String nom1Admin1, String nom2Admin1, String ape1Admin1, String ape2Admin1, String direccionAdmin1, String contraseñaAdmin1, String fotoAdmin1) {
     }
 
     public Administrador(int idAdministrador, String nom1Admin, String nom2Admin, String ape1Admin, String ape2Admin, String correoAdmin,
@@ -49,6 +59,10 @@ public class Administrador {
         this.contraseñaAdmin = contraseñaAdmin;
         this.direccionAdmin = direccionAdmin;
         this.fotoAdmin = fotoAdmin;
+    }
+
+    public Administrador() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     
@@ -130,6 +144,89 @@ public class Administrador {
         return "Administrador{" + "idAdmin=" + idAdmin + ", nom1Admin=" + nom1Admin + ", nom2Admin=" + nom2Admin + ", ape1Admin=" + ape1Admin + ", ape2Admin=" + ape2Admin + ", correoAdmin=" + correoAdmin + ", contrase\u00f1aAdmin=" + contraseñaAdmin + ", direccionAdmin=" + direccionAdmin + ", fotoAdmin=" + fotoAdmin + '}';
     }
     
+     public LinkedList<Administrador> consultarAdministrador(String sql) {
+        LinkedList<Administrador> lc = new LinkedList<>();
+        BaseDatos objb = new BaseDatos();
+        
+        String nom1Admin = "";
+        String nom2Admin = "";
+        String ape1Admin = "";
+        String ape2Admin = "";
+        String correoAdmin = "";
+        String direccionAdmin = "";
+        String contraseñaAdmin = "";
+        String fotoAdmin = "";
+        
+
+        ResultSet rs = null;
+        if (objb.crearConexion()) {
+            try {
+                rs = objb.getSt().executeQuery(sql);
+                while (rs.next()) {
+                    
+                    nom1Admin = rs.getString("nom1Admin");
+                    nom2Admin = rs.getString("nom2Admin");
+                    ape1Admin = rs.getString("ape1Admin");
+                    ape2Admin = rs.getString("ape2Admin");
+                    direccionAdmin = rs.getString("direccion");
+                    contraseñaAdmin =rs.getString("contraseña");
+                    fotoAdmin= rs.getString("fotoAdmin");
+                    lc.add(new Administrador( nom1Admin, nom2Admin, ape1Admin, ape2Admin,  direccionAdmin, contraseñaAdmin, fotoAdmin));
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(Administrador.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return lc;
+     }
+     
+      public boolean insertarAdministrador(Administrador objT, String sql) {
+        boolean t = false;
+        BaseDatos objb = new BaseDatos();
+        FileInputStream fis = null;
+        PreparedStatement ps = null;
+        try {
+            if (objb.crearConexion()) {
+                objb.getConexion().setAutoCommit(false);
+                ps = objb.getConexion().prepareStatement(sql);
+               
+                ps.setString(1, objT.getNom1Admin());
+                ps.setString(2, objT.getNom2Admin());
+                ps.setString(3, objT.getApe1Admin());
+                ps.setString(4, objT.getApe2Admin());
+                ps.setString(5, objT.getDireccionAdmin());
+                ps.setString(6, objT.getContraseñaAdmin());
+                ps.setString(7, objT.getFotoAdmin());
+
+                ps.executeUpdate();
+                objb.getConexion().commit();
+                t = true;
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(BaseDatos.class.getName()).log(Level.SEVERE, null, ex);
+            t = false;
+        }
+
+        return t;
+    }
+      public boolean eliminarAdministrador(String sql) {
+        boolean t = false;
+        BaseDatos objCon = new BaseDatos();
+
+        if (objCon.crearConexion()) {
+            try {
+                Statement sentencia = objCon.getConexion().createStatement();
+                sentencia.executeUpdate(sql);
+                t = true;
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+                t = false;
+            }
+        }
+
+        return t;
+    }
+}
     
                    
-}
+

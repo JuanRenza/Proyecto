@@ -15,9 +15,10 @@ import modelo.ClienteVendedor;
 public class ControlClienteVendedor {
 
     public LinkedList<ClienteVendedor> consultarClienteVendedor() {
-        String sql = "SELECT * FROM clientesvendedor;";
+        LinkedList<ClienteVendedor> listac = new LinkedList<>();
         ClienteVendedor objclasi = new ClienteVendedor();
-        LinkedList<ClienteVendedor> listac = objclasi.consultarClienteV(sql);
+        String sql = "select * from clientesvendedor;";
+        listac = objclasi.consultarClienteV(sql);
         return listac;
     }
 
@@ -25,19 +26,22 @@ public class ControlClienteVendedor {
         boolean t = false;
         ClienteVendedor objC2 = new ClienteVendedor();
         String sql = "";
-        sql = "INSERT INTO proyecto.clientesvendedor (identificacionC, nom1Cliente, nom2Cliente, ape1Cliente, ape2Cliente, fechaNac, direccion) VALUES(?,?,?,?,?,?,?);";
-        t = objC2.insertClientesV(objC, sql);
+        sql = "insert into clientesvendedor(identificacionC, nom1Cliente, nom2Cliente, ape1Cliente, ape2Cliente, fechaNac, direccion) values(?,?,?,?,?,?);";
+        t = objC2.insertClientesV(objC,sql);
 
         return t;
 
     }
-
-    public boolean eliminarclientesV(String listaClientes) {
+    
+    public boolean eliminarTiendas(LinkedList<ClienteVendedor> listaTiendas) {
         boolean t = false;
-        ClienteVendedor getobjeto = new ClienteVendedor();
-        String sql = "DELETE FROM clientesvendedor WHERE(identificacionc = '" + listaClientes + "');";
-        t = getobjeto.eliminarClientesV(sql);
-
+        ClienteVendedor objtienda = new ClienteVendedor();
+        for (int i = 0; i < listaTiendas.size(); i++) {
+            ClienteVendedor getobjeto = listaTiendas.get(i);
+            String sql = "";
+            sql = "DELETE FROM clientevendedor WHERE(identificacionc = '"+getobjeto.getIdentificacionC()+"');";
+            t=objtienda.eliminarClientesV(sql);
+        }
         return t;
-    }
+}
 }
