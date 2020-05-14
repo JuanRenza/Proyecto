@@ -205,7 +205,11 @@ public class InsertarTienda extends javax.swing.JFrame {
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         ControlAdministrador obja = new ControlAdministrador();
+<<<<<<< HEAD
     /*    listaAdmin = obja.consultarClasificaciones();
+=======
+        listaAdmin = obja.consultarClasificaciones();
+>>>>>>> parent of 45e6a20... Consultar y eliminar clienteVendedor
 
         for (int i = 0; i < listaAdmin.size(); i++) {
             Administrador objetoAdministrador = listaAdmin.get(i);
