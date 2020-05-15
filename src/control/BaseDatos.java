@@ -48,13 +48,13 @@ public class BaseDatos {
         try {
             
             
-//            //Si se está usando MySql5
-//            Class.forName("com.mysql.jdbc.Driver");                                      //user  //pass
-//            conexion = DriverManager.getConnection("jdbc:mysql://localhost:3306/proyecto", "root", "root");
+            //Si se está usando MySql5
+            Class.forName("com.mysql.jdbc.Driver");                                      //user  //pass
+            conexion = DriverManager.getConnection("jdbc:mysql://localhost:3306/proyecto", "root", "camilo");
             //si se está usando Mysql8
-            Class.forName("com.mysql.cj.jdbc.Driver");    
-            conexion = DriverManager.getConnection("jdbc:mysql://localhost/proyecto?useTimezone=true&serverTimezone=UTC", "root", "root");
-            st = conexion.createStatement();
+//            Class.forName("com.mysql.cj.jdbc.Driver");    
+//            conexion = DriverManager.getConnection("jdbc:mysql://localhost/proyecto?useTimezone=true&serverTimezone=UTC", "root", "root");
+//            st = conexion.createStatement();
 
             t = true;
         } catch (SQLException ex) {

@@ -33,6 +33,10 @@ public class ClienteVendedor {
     public ClienteVendedor() {
     }
 
+    public ClienteVendedor(String identificacionC) {
+        this.identificacionC = identificacionC;
+    }
+
     public ClienteVendedor(String identificacionC, String nom1Cliente, String nom2Cliente, String ape1Cliente, String ape2Cliente, String fechaNac, String direccion) {
         this.identificacionC = identificacionC;
         this.nom1Cliente = nom1Cliente;
@@ -114,42 +118,58 @@ public class ClienteVendedor {
     }
 
     public LinkedList<ClienteVendedor> consultarClienteV(String sql) {
+        ResultSet rs = null;
         LinkedList<ClienteVendedor> lc = new LinkedList<>();
         BaseDatos objb = new BaseDatos();
-        String identificacionC = "";
-        String nom1Cliente = "";
-        String nom2Cliente = "";
-        String ape1Cliente = "";
-        String ape2Cliente = "";
-        String fechaNac = "";
-        String direccion = "";
-
-        ResultSet rs = null;
+        String identificacionCC = "";
+        String nom1ClienteC = "";
+        String nom2ClienteC = "";
+        String ape1ClienteC = "";
+        String ape2ClienteC = "";
+        String fechaNacC = "";
+        String direccionC = "";
+        
         if (objb.crearConexion()) {
             try {
-                rs = objb.getSt().executeQuery(sql);
-                while (rs.next()) {
-                    identificacionC = rs.getString("identificacionC");
-                    nom1Cliente = rs.getString("nom1Cliente");
-                    nom2Cliente = rs.getString("nom2Cliente");
-                    ape1Cliente = rs.getString("ape1Cliente");
-                    ape2Cliente = rs.getString("ape2Cliente");
-                    fechaNac = rs.getString("fechaNac");
-                    direccion = rs.getString("direccion");
-                    lc.add(new ClienteVendedor(identificacionC, nom1Cliente, nom2Cliente, ape1Cliente, ape2Cliente, fechaNac, direccion));
+                Statement sentencia = objb.getConexion().createStatement();
+                rs = sentencia.executeQuery(sql);
+                 while (rs.next()) {
+                     identificacionCC = rs.getString("identificacionC");
+                    nom1ClienteC = rs.getString("nom1Cliente");
+                    try {
+                        nom2ClienteC = rs.getString("nom2Cliente");
+                    } catch (NullPointerException n) { }
+                    if(nom2ClienteC==null){
+                        nom2ClienteC = "";
+                    }
+                    
+                    ape1ClienteC = rs.getString("ape1Cliente");
+                     try {
+                        ape2ClienteC = rs.getString("ape2Cliente");
+                    } catch (NullPointerException n) { }
+                    if(ape2ClienteC==null){
+                        ape2ClienteC = "";
+                    }
+                    fechaNacC = rs.getString("fechaNac");
+                    direccionC = rs.getString("direccion");
+                    
+                 
+                    lc.add(new ClienteVendedor(identificacionCC, nom1ClienteC, nom2ClienteC, ape1ClienteC, ape2ClienteC, fechaNacC, direccionC));
                 }
             } catch (SQLException ex) {
-                Logger.getLogger(Tienda.class.getName()).log(Level.SEVERE, null, ex);
+                ex.printStackTrace();
+
             }
         }
         return lc;
+        }
+            
 
-    }
+
 
     public boolean insertClientesV(ClienteVendedor objV, String sql) {
         boolean t = false;
         BaseDatos objb = new BaseDatos();
-        FileInputStream fis = null;
         PreparedStatement ps = null;
         try {
             if (objb.crearConexion()) {
@@ -161,7 +181,7 @@ public class ClienteVendedor {
                 ps.setString(4, objV.getApe1Cliente());
                 ps.setString(5, objV.getApe2Cliente());
                 ps.setString(6, objV.getFechaNac());
-                ps.setString(6, objV.getDireccion());
+                ps.setString(7, objV.getDireccion());
 
                 ps.executeUpdate();
                 objb.getConexion().commit();
@@ -208,34 +228,7 @@ public class ClienteVendedor {
 
     }
 
-    public boolean insertarClientesV(ClienteVendedor objT, String sql) {
-        boolean t = false;
-        BaseDatos objb = new BaseDatos();
-        FileInputStream fis = null;
-        PreparedStatement ps = null;
-        try {
-            if (objb.crearConexion()) {
-                objb.getConexion().setAutoCommit(false);
-                ps = objb.getConexion().prepareStatement(sql);
-                ps.setString(1, objT.getIdentificacionC());
-                ps.setString(2, objT.getNom1Cliente());
-                ps.setString(3, objT.getNom2Cliente());
-                ps.setString(4, objT.getApe1Cliente());
-                ps.setString(5, objT.getApe2Cliente());
-                ps.setString(6, objT.getFechaNac());
-                ps.setString(7, objT.getDireccion());
 
-                ps.executeUpdate();
-                objb.getConexion().commit();
-                t = true;
-            }
-        } catch (Exception ex) {
-            Logger.getLogger(BaseDatos.class.getName()).log(Level.SEVERE, null, ex);
-            t = false;
-        }
-
-        return t;
-    }
 
     public boolean eliminarClientesV(String sql) {
         boolean t = false;
