@@ -79,6 +79,23 @@ public class TelefonosVendedor {
         return t;
 
     }
+     public boolean eliminarTelefonosVendedor(String sql) {
+        boolean t = false;
+        BaseDatos objCon = new BaseDatos();
+
+        if (objCon.crearConexion()) {
+            try {
+                Statement sentencia = objCon.getConexion().createStatement();
+                sentencia.executeUpdate(sql);
+                t = true;
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+                t = false;
+            }
+        }
+
+        return t;
+    }
     
     
 }

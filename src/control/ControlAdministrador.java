@@ -32,6 +32,15 @@ public class ControlAdministrador {
         return t;
 
     }
+      public boolean eliminarAdministrador(String listaA) {
+
+        boolean t = false;
+        Administrador getobjeto = new Administrador();
+        String sql = "DELETE FROM administrador WHERE(correoAdmin = '" + listaA + "');";
+        t = getobjeto.eliminarAdministrador(sql);
+
+        return t;
+    }
     
     
 }

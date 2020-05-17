@@ -27,8 +27,16 @@ public class ControlTelefonosAdmin {
         }
         
         return t;
-        
-        
-        
+                       
+    }
+    
+     public boolean eliminarTelefonosA(String listaTA) {
+
+        boolean t = false;
+        TelefonosAdmin getobjeto = new TelefonosAdmin();
+        String sql = "DELETE FROM TelefonosAdmin WHERE(numerotelefono = '" + listaTA+ "');";
+        t = getobjeto.eliminarTelefonosAdmin(sql);
+
+        return t;
     }
 }

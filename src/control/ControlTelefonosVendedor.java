@@ -29,5 +29,14 @@ public class ControlTelefonosVendedor {
         
         
     }
+     public boolean eliminarTelefonosV(String listaTV) {
+
+        boolean t = false;
+        TelefonosVendedor getobjeto = new TelefonosVendedor();
+        String sql = "DELETE FROM telefonosvendedor WHERE(numerotelefono = '" + listaTV+ "');";
+        t = getobjeto.eliminarTelefonosVendedor(sql);
+
+        return t;
+    }
     
 }
