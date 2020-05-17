@@ -21,6 +21,13 @@ public class ControlClienteVendedor {
         LinkedList<ClienteVendedor> listac = objclasi.consultarClienteV(sql);
         return listac;
     }
+    public LinkedList<ClienteVendedor> consultarClienteVendedor2(String id) {
+
+        String sql = "SELECT * FROM clientesvendedor WHERE identificacionC = '"+ id +"';";
+        ClienteVendedor objclasi = new ClienteVendedor();
+        LinkedList<ClienteVendedor> listac = objclasi.consultarClienteV(sql);
+        return listac;
+    }
 
     public boolean insertarClientesV(ClienteVendedor objC) {
 
@@ -42,4 +49,15 @@ public class ControlClienteVendedor {
 
         return t;
     }
+    
+    public boolean consultarClienteV(String n1, String n2, String a1, String a2, String fecha, String dire, String idCliente) {
+
+        boolean t = false;
+        ClienteVendedor getobjeto = new ClienteVendedor();
+        String sql = "UPDATE clientesvendedor SET nom1Cliente = '"+ n1 +"', nom2Cliente = '"+ n2 +"', ape1Cliente = '"+ a1 +"', ape2Cliente = '"+ a2 +"', fechaNac = '"+ fecha +"', direccion = '"+ dire +"' WHERE (`identificacionC` = '"+ idCliente +"');";
+        t = getobjeto.consultarCliente(sql);
+
+        return t;
+    }
+    
 }
