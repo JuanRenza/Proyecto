@@ -5,6 +5,7 @@
  */
 package control;
 
+import java.util.LinkedList;
 import modelo.FotoPredeterminada;
 
 /**
@@ -19,6 +20,21 @@ public class ControlFotoPredeterminada {
         String sql="";
         sql="INSERT INTO fotospredeterminadas (fotoPredeterminada) VALUES(?)";
         t = objp2.insertFotoPredeterminada(objfp, sql);
+        return t;
+    }
+
+    public LinkedList<FotoPredeterminada> consultarFotoPredeterminada() {
+        String sql="Select * from fotospredeterminadas;";
+        FotoPredeterminada objfp = new FotoPredeterminada();
+        LinkedList<FotoPredeterminada> listfp = objfp.buscarFotoPredeterminada(sql);
+        return listfp;
+    }
+
+    public boolean eliminarFotoPredeterminada(String idFoto) {
+        boolean t = false;
+        FotoPredeterminada fp = new FotoPredeterminada();
+        String sql = "DELETE FROM fotospredeterminadas WHERE(idfotoPredeterminada = '" + idFoto + "');";
+        t = fp.eliminarFotoPredeterminada(sql);
         return t;
     }
     

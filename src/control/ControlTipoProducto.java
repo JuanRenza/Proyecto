@@ -28,6 +28,14 @@ public class ControlTipoProducto {
         t= objtp.insertTipoProducto(sql);
         return t;
         }
+
+    public boolean eliminarTipoProducto(String idTipo) {
+        boolean t = false;
+        TipoProducto tp = new TipoProducto();
+        String sql = "DELETE FROM tiposproductos WHERE(idTipo = '" + idTipo + "');";
+        t = tp.eliminarTipoProducto(sql);
+        return t;
+    }
     
     
 }

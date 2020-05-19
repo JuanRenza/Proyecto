@@ -7,7 +7,10 @@ package modelo;
 
 import control.BaseDatos;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.LinkedList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -72,5 +75,53 @@ public class FotoPredeterminada {
                 t = false;
             }
             return t;
+    }
+
+
+
+    public LinkedList<FotoPredeterminada> buscarFotoPredeterminada(String sql) {
+        ResultSet rs = null;
+        LinkedList<FotoPredeterminada> lfp = new LinkedList<FotoPredeterminada>();
+        BaseDatos objcone = new BaseDatos();     
+        
+        if (objcone.crearConexion()) {
+            try{
+                Statement sentencia = objcone.getConexion().createStatement();
+                rs = sentencia.executeQuery(sql);
+                while(rs.next()){
+                    
+                    FotoPredeterminada fp = new FotoPredeterminada();
+                    
+                    try {
+                        fp.setIdfotoPredeterminada(rs.getInt("idfotoPredeterminada"));
+                        fp.setFotoPredeterminada(rs.getBytes("fotoPredeterminada"));
+                    } catch (NullPointerException n) { }
+                    
+                    lfp.add(fp);
+                    
+                }
+            }catch(SQLException ex){
+                System.out.println(ex.getMessage());
+            }
+        }
+        return lfp;
+    }
+
+    public boolean eliminarFotoPredeterminada(String sql) {
+        boolean t = false;
+        BaseDatos objCon = new BaseDatos();
+
+        if (objCon.crearConexion()) {
+            try {
+                Statement sentencia = objCon.getConexion().createStatement();
+                sentencia.executeUpdate(sql);
+                t = true;
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+                t = false;
+            }
+        }
+
+        return t;
     }
 }
