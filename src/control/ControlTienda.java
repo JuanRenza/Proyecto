@@ -17,10 +17,9 @@ import modelo.Tienda;
 public class ControlTienda {
 
     public LinkedList<Tienda> consultarTiendas() {
-        LinkedList<Tienda> listac = new LinkedList<>();
+        String sql = "SELECT * FROM tiendas;";
         Tienda objclasi = new Tienda();
-        String sql = "select * from tiendas;";
-        listac = objclasi.consultarTiendas(sql);
+        LinkedList<Tienda> listac = objclasi.consultarTiendas(sql);
         return listac;
     }
 
@@ -34,15 +33,12 @@ public class ControlTienda {
 
     }
 
-    public boolean eliminarTiendas(LinkedList<Tienda> listaTiendas) {
+    public boolean eliminarTiendas(int listaTiendas) {
         boolean t = false;
-        Tienda objtienda = new Tienda();
-        for (int i = 0; i < listaTiendas.size(); i++) {
-            Tienda getobjeto = listaTiendas.get(i);
-            String sql = "";
-            sql = "DELETE FROM tiendas WHERE(idTienda = '"+getobjeto.getIdTienda()+"');";
-            t=objtienda.eliminarTienda(sql);
-        }
+        ClienteVendedor getobjeto = new ClienteVendedor();
+        String sql = "DELETE FROM tiendas WHERE(idTienda = '" + listaTiendas + "');";
+        t = getobjeto.eliminarClientesV(sql);
+
         return t;
     }
     

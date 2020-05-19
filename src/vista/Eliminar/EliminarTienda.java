@@ -103,7 +103,7 @@ public class EliminarTienda extends javax.swing.JFrame {
         int idTienda =Integer.parseInt(jTextField1.getText());
         listaTienda.add(new Tienda(idTienda));
         ControlTienda objCc=new ControlTienda();
-        boolean t=objCc.eliminarTiendas(listaTienda);
+        boolean t=objCc.eliminarTiendas(idTienda);
         
         if(t==true){
             JOptionPane.showMessageDialog(rootPane, "Se insertaron las ciudades");

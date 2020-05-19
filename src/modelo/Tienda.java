@@ -21,7 +21,7 @@ import java.util.logging.Logger;
  * @author W°
  */
 public class Tienda {
-    
+
     private int idTienda;
     private String nomTienda;
     private String direccionTienda;
@@ -39,9 +39,7 @@ public class Tienda {
     public Tienda(int idTienda) {
         this.idTienda = idTienda;
     }
-    
-    
-    
+
     public Tienda(int idTienda, String nomTienda, String direccionTienda, String fotoTienda, String descripcionTienda, int aprobacionTienda, String fechaAprobacionTienda, int idAdminTF, String identificacionCVF, int idFotoPredeterminadaTF) {
         this.idTienda = idTienda;
         this.nomTienda = nomTienda;
@@ -66,11 +64,7 @@ public class Tienda {
         this.identificacionCVF = identificacionCVF;
         this.idFotoPredeterminadaTF = idFotoPredeterminadaTF;
     }
-    
-    
 
-    
-    
     public int getIdTienda() {
         return idTienda;
     }
@@ -118,9 +112,6 @@ public class Tienda {
     public void setAprobacionTienda(int aprobacionTienda) {
         this.aprobacionTienda = aprobacionTienda;
     }
-    
-    
-
 
     public String getFechaAprobacionTienda() {
         return fechaAprobacionTienda;
@@ -158,47 +149,86 @@ public class Tienda {
     public String toString() {
         return "Tienda{" + "idTienda=" + idTienda + ", nomTienda=" + nomTienda + ", direccionTienda=" + direccionTienda + ", fotoTienda=" + fotoTienda + ", descripcionTienda=" + descripcionTienda + ", aprobacionTienda=" + aprobacionTienda + ", fechaAprobacionTienda=" + fechaAprobacionTienda + ", idAdminTF=" + idAdminTF + ", identificacionCVF=" + identificacionCVF + ", idFotoPredeterminadaTF=" + idFotoPredeterminadaTF + '}';
     }
-    
+
     public LinkedList<Tienda> consultarTiendas(String sql) {
+        ResultSet rs = null;
         LinkedList<Tienda> lc = new LinkedList<>();
         BaseDatos objb = new BaseDatos();
-        int idTienda= 0;
-        String nomTienda= "";
-        String direccionTienda= "";
-        String fotoTienda= "";
-        String descripcionTienda= "";
-        int aprobacionTienda= 0;
-        String fechaAprobacionTienda= "";
-        int idAdminTF= 0;
-        String identificacionCVF= "";
-        int idFotoPredeterminadaTF= 0;
-        
-        ResultSet rs = null;
+        int idTiendat = 0;
+        String nomTiendat = "";
+        String direccionTiendat = "";
+        String fotoTiendat = "";
+        String descripcionTiendat = "";
+        int aprobacionTiendat = 0;
+        String fechaAprobacionTiendat = "";
+        int idAdminTFt = 0;
+        String identificacionCVFt = "";
+        int idFotoPredeterminadaTFt = 0;
+
         if (objb.crearConexion()) {
             try {
-                rs = objb.getSt().executeQuery(sql);
+                Statement sentencia = objb.getConexion().createStatement();
+                rs = sentencia.executeQuery(sql);
                 while (rs.next()) {
-                    idTienda = rs.getInt("idTienda");
-                    nomTienda = rs.getString("nomTienda");
-                    direccionTienda = rs.getString("direccionTienda");
-                    fotoTienda = rs.getString("fotoTienda");
-                    descripcionTienda = rs.getString("descripcionTienda");
-                    aprobacionTienda = rs.getInt("aprobacionTienda");
-                    fechaAprobacionTienda = rs.getString("fechaAprobacionTienda");
-                    idAdminTF = rs.getInt("idAdminTF");
-                    identificacionCVF = rs.getString("identificacionCVF");
-                    idFotoPredeterminadaTF = rs.getInt("idFotoPredeterminadaTF");
-                    lc.add(new Tienda(idTienda, nomTienda, direccionTienda, fotoTienda, descripcionTienda, aprobacionTienda, fechaAprobacionTienda, idAdminTF, identificacionCVF, idFotoPredeterminadaTF));
+                    idTiendat = rs.getInt("idTienda");
+                    nomTiendat = rs.getString("nomTienda");
+                    try {
+                        direccionTiendat = rs.getString("direccionTienda");
+                    } catch (NullPointerException n) {
+                    }
+                    if (direccionTiendat == null) {
+                        direccionTiendat = "";
+                    }
+                    
+                    try {
+                        fotoTiendat = rs.getString("fotoTienda");
+                    } catch (NullPointerException n) {
+                    }
+                    if (fotoTiendat == null) {
+                        fotoTiendat = "";
+                    }
+                    
+                    descripcionTiendat = rs.getString("descripcionTienda");
+                    
+                    try {
+                        aprobacionTiendat = rs.getInt("aprobacionTienda");
+                    } catch (NullPointerException n) {
+                    }
+                    if (aprobacionTiendat == 0) {
+                        aprobacionTiendat = 0;
+                    }
+                    
+                    try {
+                        fechaAprobacionTiendat = rs.getString("fechaAprobacionTienda");
+                    } catch (NullPointerException n) {
+                    }
+                    if (fechaAprobacionTiendat == null) {
+                        fechaAprobacionTiendat = "";
+                    }
+                    
+                    idAdminTFt = rs.getInt("idAdminTF");
+                    identificacionCVFt = rs.getString("identificacionCVF");
+                    
+                    try {
+                        idFotoPredeterminadaTFt = rs.getInt("idFotoPredeterminadaTF");
+                    } catch (NullPointerException n) {
+                    }
+                    if (idFotoPredeterminadaTFt == 0) {
+                        idFotoPredeterminadaTFt = 0;
+                    }
+
+                    lc.add(new Tienda(idTiendat, nomTiendat, direccionTiendat, fotoTiendat, descripcionTiendat, aprobacionTiendat, fechaAprobacionTiendat, idAdminTFt, identificacionCVFt, idFotoPredeterminadaTFt));
                 }
             } catch (SQLException ex) {
-                Logger.getLogger(Tienda.class.getName()).log(Level.SEVERE, null, ex);
+                ex.printStackTrace();
+
             }
         }
         return lc;
 
     }
 
-    public boolean insertarTiendas(Tienda objT,String sql) {
+    public boolean insertarTiendas(Tienda objT, String sql) {
         boolean t = false;
         BaseDatos objb = new BaseDatos();
         FileInputStream fis = null;
@@ -218,7 +248,6 @@ public class Tienda {
                 ps.setInt(7, objT.getIdAdminTF());
                 ps.setString(8, objT.getIdentificacionCVF());
                 ps.setInt(9, objT.getIdFotoPredeterminadaTF());
-                
 
                 ps.executeUpdate();
                 objb.getConexion().commit();
@@ -233,24 +262,21 @@ public class Tienda {
     }
 
     public boolean eliminarTienda(String sql) {
-        boolean t=false;
+        boolean t = false;
         BaseDatos objCon = new BaseDatos();
 
         if (objCon.crearConexion()) {
             try {
                 Statement sentencia = objCon.getConexion().createStatement();
                 sentencia.executeUpdate(sql);
-                t=true;
+                t = true;
             } catch (SQLException ex) {
                 ex.printStackTrace();
-                t= false;
+                t = false;
             }
         }
-        
+
         return t;
     }
-    
-    
-    
-    }
-    
+
+}
