@@ -33,7 +33,7 @@ public class ControlTelefonosVendedor {
 
         boolean t = false;
         TelefonosVendedor getobjeto = new TelefonosVendedor();
-        String sql = "DELETE FROM telefonosvendedor WHERE(numerotelefono = '" + listaTV+ "');";
+        String sql = "DELETE FROM telefonosvendedor WHERE(numTelefono = '" + listaTV+ "');";
         t = getobjeto.eliminarTelefonosVendedor(sql);
 
         return t;
