@@ -34,7 +34,7 @@ public class ControlTelefonosAdmin {
 
         boolean t = false;
         TelefonosAdmin getobjeto = new TelefonosAdmin();
-        String sql = "DELETE FROM TelefonosAdmin WHERE(numTelefono = '" + listaTA+ "');";
+        String sql = "DELETE FROM TelefonosAdmin WHERE(numerotelefono = '" + listaTA+ "');";
         t = getobjeto.eliminarTelefonosAdmin(sql);
 
         return t;
